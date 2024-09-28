@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import DataStorage from '../contract/DataStorage.json'; // Adjust path as needed
 
-const CONTRACT_ADDRESS = '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9'; // Replace with your deployed contract address
+const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // Replace with your deployed contract address
 
 function App() {
   const [data, setData] = useState('');
@@ -17,11 +17,7 @@ function App() {
       const contract = new ethers.Contract(CONTRACT_ADDRESS, DataStorage.abi, signer);
 
       try {
-        // const tx = await contract.setData(data);
-        const tx = await signer.sendTransaction({
-            to: CONTRACT_ADDRESS,                     // The recipient address
-            value: 120000000000000,  // Amount of Ether to send in Wei
-          });
+        const tx = await contract.setData(data);
         await tx.wait();
         alert('Data stored successfully!');
       } catch (error) {
@@ -34,11 +30,13 @@ function App() {
 
   async function getDataFromBlockchain() {
     if (window.ethereum) {
+      console.log(window.ethereum)
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const contract = new ethers.Contract(CONTRACT_ADDRESS, DataStorage.abi, provider);
+      console.log('enter2')
 
       try {
-        const result = await contract.getData();
+        const result = await contract.retrieveData({ gasLimit: 3000000 });
         setStoredData(result);
       } catch (error) {
         console.error(error);

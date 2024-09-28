@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Home from './Componenets/Home';
 import About from './Componenets/About';
 import Nft from './Componenets/Nft';
+import NftSign from './Componenets/NftSign';
 import '../src/bootstrap/css/bootstrap.min.css';
 import '../src/css/style.css';
 import Popup from './Popup'; // Import the Popup component
@@ -30,7 +31,7 @@ const App = () => {
   // const [recipient, setRecipient] = useState("");
 
   const connectWallet = async () => {
-    const contractAddres = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+    const contractAddres = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
     // const contractABI = abi.abi;
       //Metamask part
       //1. In order do transactions on goerli testnet
@@ -124,7 +125,7 @@ const App = () => {
                 <Link className="nav-link" to="/nft">NFT</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/nft">Digital-nft-sign</Link>
+                <Link className="nav-link" to="/nft-sign">Digital-nft-sign</Link>
               </li>
             </ul>
             <div className="form-inline my-2 my-lg-0">
@@ -139,6 +140,7 @@ const App = () => {
             <Route exact path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/nft" element={<Nft />} />
+            <Route path="/nft-sign" element={<NftSign />} />
           </Routes>
         </div>
 
