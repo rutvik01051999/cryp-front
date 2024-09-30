@@ -36,8 +36,13 @@ function App() {
       console.log('enter2')
 
       try {
+        console.log('enter3')
         const result = await contract.retrieveData({ gasLimit: 3000000 });
-        setStoredData(result);
+        console.log('data', result)
+        setStoredData(result.toString());
+        console.log('enter7')
+        // setStoredData(result);
+        console.log('enter77')
       } catch (error) {
         console.error(error);
       }

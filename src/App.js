@@ -12,27 +12,16 @@ import Popup from './Popup'; // Import the Popup component
 import { ethers } from "ethers"
 
 
-// const ethers = require("ethers")
 const App = () => {
-  // const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState({
     provider: null,
     signer: null,
     contract: null
   })
 
-    // const togglePopup = () => {
-    //     setIsOpen(!isOpen);
-    // };
-
   const [account, setAccount] = useState("");
-  // const [contract, setContract] = useState(null);
-  // const [amount, setAmount] = useState("");
-  // const [recipient, setRecipient] = useState("");
-
   const connectWallet = async () => {
     const contractAddres = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-    // const contractABI = abi.abi;
       //Metamask part
       //1. In order do transactions on goerli testnet
       //2. Metmask consists of infura api which actually help in connectig to the blockhain
@@ -60,38 +49,11 @@ const App = () => {
 
         console.log(provider)
 
-        // const contract = new ethers.Contract(
-        //   contractAddres,
-        //   contractABI,
-        //   signer
-        // )
-        // console.log(contract)
-        // setState({ provider, signer, contract });
-
       } catch (error) {
         console.log(error)
       }
-    // if (window.ethereum) {
-    //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-    //   await provider.send("eth_requestAccounts", []);
-    //   const signer = provider.getSigner();
-    //   setAccount(await signer.getAddress());
 
-    //   const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-    //   const contract = new ethers.Contract(contractAddress, CryptoTransfer.abi, signer);
-    //   setContract(contract);
-    // }
   };
-
-  // const sendCrypto = async () => {
-  //   if (contract) {
-  //     const tx = await contract.transferFunds(recipient, {
-  //       value: ethers.utils.parseEther(amount),
-  //     });
-  //     await tx.wait();
-  //     console.log("Transaction complete");
-  //   }
-  // };
 
   return (
     <Router>
