@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import DataStorage from '../contract/DataStorage.json'; // Adjust path as needed
 
-const CONTRACT_ADDRESS = '0x443Ff99Bce3779bdb56e942f5Fc74CC0Ae66A239'; // Replace with your deployed contract address
+const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // Replace with your deployed contract address
 
 function App() {
   const [data, setData] = useState('');
@@ -37,7 +37,7 @@ function App() {
 
       try {
         console.log('enter3')
-        const result = await contract.retrieveData({ gasLimit: 300000000 });
+        const result = await contract.retrieveData({ gasLimit: 3000000000 });
         console.log('data', result)
         setStoredData(result.toString());
         console.log('enter7')

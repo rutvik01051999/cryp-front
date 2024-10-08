@@ -6,6 +6,7 @@ import Home from './Componenets/Home';
 import About from './Componenets/About';
 import Nft from './Componenets/Nft';
 import NftSign from './Componenets/NftSign';
+import NftSlogan from './Componenets/NftSlogan';
 import '../src/bootstrap/css/bootstrap.min.css';
 import '../src/css/style.css';
 import Popup from './Popup'; // Import the Popup component
@@ -18,6 +19,7 @@ const App = () => {
     signer: null,
     contract: null
   })
+  const [active, setActive] = useState('home');
 
   const [account, setAccount] = useState("");
   const connectWallet = async () => {
@@ -75,19 +77,22 @@ const App = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link className="nav-link" to="/">Home</Link>
+                <Link className = {`nav-link ${active == 'home' ? 'active' : ''}`} onClick={() => setActive('home')} to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/about">About</Link>
+                <Link className = {`nav-link ${active == 'about' ? 'active' : ''}`} onClick={() => setActive('about')} to="/about">About</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/contact">Contact</Link>
+                <Link className = {`nav-link ${active == 'contact' ? 'active' : ''}`} onClick={() => setActive('contact')} to="/contact">Contact</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/nft">NFT</Link>
+                <Link className = {`nav-link ${active == 'nft' ? 'active' : ''}`} onClick={() => setActive('nft')} to="/nft">NFT</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/nft-sign">Digital-nft-sign</Link>
+                <Link className = {`nav-link ${active == 'nft-sign' ? 'active' : ''}`} onClick={() => setActive('nft-sign')} to="/nft-sign">Digital-nft-sign</Link>
+              </li>
+              <li className="nav-item">
+                <Link className = {`nav-link ${active == 'nft-slogan' ? 'active' : ''}`} onClick={() => setActive('nft-slogan')} to="/nft-slogan">NFT-Sologan</Link>
               </li>
             </ul>
             <div className="form-inline my-2 my-lg-0">
@@ -103,6 +108,7 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/nft" element={<Nft />} />
             <Route path="/nft-sign" element={<NftSign />} />
+            <Route path="/nft-slogan" element={<NftSlogan />} />
           </Routes>
         </div>
 
@@ -209,64 +215,3 @@ const App = () => {
 };
 
 export default App;
-
-// import { ethers } from "ethers";
-// import { useState } from "react";
-// import MockBTCAbi from './MockBTC.json';  // ABI of MockBTC
-// import SwapAbi from './Swap.json';  // ABI of Swap
-
-// const mockBTCAddress = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9";  // Replace with deployed MockBTC contract address
-// const swapAddress = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707";  // Replace with deployed Swap contract address
-
-// function App() {
-//   const [ethAmount, setEthAmount] = useState("");
-//   const [account, setAccount] = useState("");
-
-//   const connectWallet = async () => {
-
-//     const [selectedAccount] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-//     console.log("Selected account:", selectedAccount);
-//     setAccount(selectedAccount);
-//   };
-
-//   const swapEtherForMockBTC = async () => {
-//     const provider = new ethers.providers.Web3Provider(window.ethereum);
-//     const signer = provider.getSigner();
-
-//     console.log(swapAddress, SwapAbi, signer);
-//     const swapContract = new ethers.Contract(swapAddress, SwapAbi.abi, signer);
-
-
-
-//     // Convert ETH amount to Wei
-//     const value = ethers.utils.parseEther(ethAmount);
-
-//     const tx = await swapContract.swapEtherForMockBTC({
-//       value: value,  // Sending 0.1 ETH for the swap
-//       gasLimit: 1000000  // Manually set gas limit if needed
-//     });
-
-
-//     await tx.wait();
-//     alert("Swap successful! Check your MockBTC balance.");
-//   };
-
-//   return (
-//     <div className="App">
-//       <h1>Swap ETH to MockBTC</h1>
-//       <button onClick={connectWallet}>Connect Wallet</button>
-//       <div>
-//         <input
-//           type="text"
-//           placeholder="Amount of ETH"
-//           value={ethAmount}
-//           onChange={(e) => setEthAmount(e.target.value)}
-//         />
-//         <button onClick={swapEtherForMockBTC}>Swap</button>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default App;
-
