@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import DataStorage from '../contract/DataStorage.json'; // Adjust path as needed
 
-const CONTRACT_ADDRESS = '0x443Ff99Bce3779bdb56e942f5Fc74CC0Ae66A239'; // Replace with your deployed contract address
+const CONTRACT_ADDRESS = '0x95BEf2BBc9953C90701396564e49c33247AE2646'; // Replace with your deployed contract address
 
 function App() {
   const [data, setData] = useState('');
   const [storedData, setStoredData] = useState('');
-
+  const amount = ethers.utils.parseEther("0.00000000000000012") 
   async function setDataOnBlockchain() {
     if (!data) return;
 
@@ -17,7 +17,9 @@ function App() {
       const contract = new ethers.Contract(CONTRACT_ADDRESS, DataStorage.abi, signer);
 
       try {
-        const tx = await contract.setData(data);
+        console.log(amount)                
+        const tx = await contract.setData('0x655dAaAD191eeaE30C45148f2AFFbE5256Ea24Dc', { value: amount,gasLimit: 300000 });
+        // const tx = await contract.setData(data,CONTRACT_ADDRESS);
         await tx.wait();
         alert('Data stored successfully!');
       } catch (error) {

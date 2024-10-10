@@ -23,7 +23,7 @@ const App = () => {
 
   const [account, setAccount] = useState("");
   const connectWallet = async () => {
-    const contractAddres = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+    const contractAddres = "0x443Ff99Bce3779bdb56e942f5Fc74CC0Ae66A239";
       //Metamask part
       //1. In order do transactions on goerli testnet
       //2. Metmask consists of infura api which actually help in connectig to the blockhain
@@ -44,6 +44,7 @@ const App = () => {
         const signer = provider.getSigner(); //write the blockchain
 
         provider.getBalance(contractAddres, "latest").then((balance) => {
+          debugger
           console.log("Balance:", ethers.utils.formatEther(balance));
         }).catch((error) => {
           console.error("Error fetching balance:", error);

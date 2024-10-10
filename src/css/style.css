@@ -1,11 +1,21 @@
 .navbar{
-    background-color: orange !important;
+    background-color: black !important;
+    color: white;
 }
 footer{
-    background-color: orange !important;
+    background-color: black !important;
+    color: white !important;
 }
 a { color: inherit; } 
 
 .active{
     background-color:aliceblue;
+    border-radius:12px;
+    color: black !important;
+}
+.title_des{
+    font-family: "Audiowide", sans-serif;
+}
+body{
+    font-family: "Audiowide", sans-serif;
 }
