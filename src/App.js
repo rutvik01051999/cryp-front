@@ -23,44 +23,49 @@ const App = () => {
 
   const [account, setAccount] = useState("");
   const connectWallet = async () => {
-    const contractAddres = "0x443Ff99Bce3779bdb56e942f5Fc74CC0Ae66A239";
-      //Metamask part
-      //1. In order do transactions on goerli testnet
-      //2. Metmask consists of infura api which actually help in connectig to the blockhain
-      try {
+    const contractAddres = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+    //Metamask part
+    //1. In order do transactions on goerli testnet
+    //2. Metmask consists of infura api which actually help in connectig to the blockhain
+    try {
 
-        const { ethereum } = window;
-        const account = await ethereum.request({
-          method: "eth_requestAccounts"
-        })
+      const { ethereum } = window;
+      const account = await ethereum.request({
+        method: "eth_requestAccounts"
+      })
 
-        window.ethereum.on("accountsChanged", () => {
-          window.location.reload()
-        })
-        setAccount(account);
+      window.ethereum.on("accountsChanged", () => {
+        window.location.reload()
+      })
+      setAccount(account);
 
-        console.log(account)
-        const provider = new ethers.providers.Web3Provider(ethereum);//read the Blockchain
-        const signer = provider.getSigner(); //write the blockchain
+      console.log(account)
+      const provider = new ethers.providers.Web3Provider(ethereum);//read the Blockchain
+      const signer = provider.getSigner(); //write the blockchain
 
-        provider.getBalance(contractAddres, "latest").then((balance) => {
-          debugger
-          console.log("Balance:", ethers.utils.formatEther(balance));
-        }).catch((error) => {
-          console.error("Error fetching balance:", error);
-        });
+      // Get the connected wallet address
+      const walletAddress = await signer.getAddress();
 
-        console.log(provider)
+      console.log("Connected Wallet Address:", walletAddress);
 
-      } catch (error) {
-        console.log(error)
-      }
+
+      provider.getBalance(contractAddres, "latest").then((balance) => {
+        console.log("Balance:", ethers.utils.formatEther(balance));
+      }).catch((error) => {
+        console.error("Error fetching balance:", error);
+      });
+
+      console.log(provider)
+
+    } catch (error) {
+      console.log(error)
+    }
 
   };
 
   return (
     <Router>
-        {/* <Popup isOpen={isOpen} onClose={togglePopup}>
+      {/* <Popup isOpen={isOpen} onClose={togglePopup}>
                 <h2>This is a Popup</h2>
                 <p>You can put any content here.</p>
             </Popup> */}
@@ -70,7 +75,7 @@ const App = () => {
         {/* Fixed Navbar */}
 
         <nav className="navbar navbar-expand-lg">
-          <a className="navbar-brand" href="#">Navbar</a>
+          <a className="navbar-brand" href="#">EthNfts</a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -78,26 +83,26 @@ const App = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link className = {`nav-link ${active == 'home' ? 'active' : ''}`} onClick={() => setActive('home')} to="/">Home</Link>
+                <Link className={`nav-link ${active == 'home' ? 'active' : ''}`} onClick={() => setActive('home')} to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className = {`nav-link ${active == 'about' ? 'active' : ''}`} onClick={() => setActive('about')} to="/about">About</Link>
+                <Link className={`nav-link ${active == 'about' ? 'active' : ''}`} onClick={() => setActive('about')} to="/about">About</Link>
               </li>
               <li className="nav-item">
-                <Link className = {`nav-link ${active == 'contact' ? 'active' : ''}`} onClick={() => setActive('contact')} to="/contact">Contact</Link>
+                <Link className={`nav-link ${active == 'contact' ? 'active' : ''}`} onClick={() => setActive('contact')} to="/contact">Contact</Link>
               </li>
               <li className="nav-item">
-                <Link className = {`nav-link ${active == 'nft' ? 'active' : ''}`} onClick={() => setActive('nft')} to="/nft">NFT</Link>
+                <Link className={`nav-link ${active == 'nft' ? 'active' : ''}`} onClick={() => setActive('nft')} to="/nft">NFT-Number</Link>
               </li>
               <li className="nav-item">
-                <Link className = {`nav-link ${active == 'nft-sign' ? 'active' : ''}`} onClick={() => setActive('nft-sign')} to="/nft-sign">Digital-nft-sign</Link>
+                <Link className={`nav-link ${active == 'nft-sign' ? 'active' : ''}`} onClick={() => setActive('nft-sign')} to="/nft-sign">Digital-nft-sign</Link>
               </li>
               <li className="nav-item">
-                <Link className = {`nav-link ${active == 'nft-slogan' ? 'active' : ''}`} onClick={() => setActive('nft-slogan')} to="/nft-slogan">NFT-Sologan</Link>
+                <Link className={`nav-link ${active == 'nft-slogan' ? 'active' : ''}`} onClick={() => setActive('nft-slogan')} to="/nft-slogan">NFT-Sologan</Link>
               </li>
             </ul>
             <div className="form-inline my-2 my-lg-0">
-              <button onClick={connectWallet} className="btn btn-outline-success my-2 my-sm-0" type="submit">Connect</button>
+              <button onClick={connectWallet} className="btn btn-outline-danger my-2 my-sm-0" type="submit">Login</button>
             </div>
           </div>
         </nav>

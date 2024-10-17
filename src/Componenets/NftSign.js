@@ -1,141 +1,93 @@
-// import React, { useRef, useState } from 'react';
-// import SignatureCanvas from 'react-signature-canvas';
+import React, { useState } from "react";
+import axios from "axios";
 
-// function NftSign() {
-//   const [imageURL, setImageURL] = useState(null); // to store image URL
-//   const sigCanvas = useRef({});
-
-//   // Clear the signature canvas
-//   const clear = () => sigCanvas.current.clear();
-
-//   // Save the signature
-//   const save = () => {
-//     const signatureData = sigCanvas.current.getTrimmedCanvas().toDataURL('image/png');
-//     console.log(signatureData)
-//     setImageURL(signatureData); // Save the signature as a URL
-//   };
-
-//   return (
-//     <div className="App">
-//       <h1>Sign Below</h1>
-      
-//       {/* Signature Canvas */}
-//       <SignatureCanvas
-//         ref={sigCanvas}
-//         penColor="black"
-//         canvasProps={{
-//           width: 500,
-//           height: 200,
-//           className: 'sigCanvas'
-//         }}
-//       />
-
-//       {/* Buttons */}
-//       <button onClick={clear}>Clear</button>
-//       <button onClick={save}>Save</button>
-
-//       {/* Display the saved signature image */}
-//       {imageURL ? (
-//         <div>
-//           <h2>Saved Signature:</h2>
-//           <img src={imageURL} alt="signature" />
-//         </div>
-//       ) : null}
-//     </div>
-//   );
-// }
-
-// export default NftSign;
-
-
-import React, { useState, useEffect } from 'react';
-import { ethers } from 'ethers';
-import ImageStorageABI from '../contract/DataStorage.json'; // Adjust path as needed
-
-function NftSign() {
-    const [imageHash, setImageHash] = useState('');
+const NftSign = () => {
     const [selectedFile, setSelectedFile] = useState(null);
-    const [uploadedImageHash, setUploadedImageHash] = useState('');
-    const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // Replace with your contract address
+    const [ipfsHash, setIpfsHash] = useState("");
 
-    // Handle image file change
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
     };
 
-    // Upload image to IPFS
-    const uploadImageToIPFS = async () => {
-        if (selectedFile) {
-            const formData = new FormData();
-            formData.append('file', selectedFile);
+    const uploadToPinata = async (e) => {
+        e.preventDefault();
 
-            try {
-                const response = await fetch('https://ipfs.infura.io:5001/api/v0/add', {
-                    method: 'POST',
-                    body: formData,
-                });
-                const data = await response.json();
-                const hash = data.Hash;
-                setUploadedImageHash(hash);
-                console.log('Image uploaded to IPFS:', hash);
-                return hash;
-            } catch (err) {
-                console.error('Error uploading to IPFS:', err);
-            }
+        if (!selectedFile) {
+            alert("Please select a file first!");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+
+        const metadata = JSON.stringify({
+            name: "MyImage",
+        });
+        formData.append("pinataMetadata", metadata);
+
+        const pinataOptions = JSON.stringify({
+            cidVersion: 0,
+        });
+        formData.append("pinataOptions", pinataOptions);
+
+        try {
+            const res = await axios.post(
+                "https://api.pinata.cloud/pinning/pinFileToIPFS",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+                        pinata_api_key: "c3b87ecde64af10f6a43",
+                        pinata_secret_api_key: "6c1905aec9afc723a77c97c9a5600ffe4d01e86f4426759287950e9557560e61",
+                    },
+                }
+            );
+
+            console.log("IPFS Hash: ", res.data.IpfsHash);
+            setIpfsHash(res.data.IpfsHash);
+        } catch (error) {
+            console.error("Error uploading to Pinata: ", error);
+            alert("Error uploading file!");
         }
     };
-
-    // Store IPFS hash on the blockchain
-    const storeImageHashOnBlockchain = async (hash) => {
-        if (typeof window.ethereum !== 'undefined') {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const contract = new ethers.Contract(contractAddress, ImageStorageABI.abi, signer);
-            try {
-                const tx = await contract.setImageHash(hash);
-                await tx.wait();
-                console.log('IPFS hash stored on blockchain:', hash);
-                getImageHashFromBlockchain();
-            } catch (err) {
-                console.error('Error storing hash on blockchain:', err);
-            }
-        }
-    };
-
-    // Retrieve the IPFS hash from the blockchain
-    const getImageHashFromBlockchain = async () => {
-        if (typeof window.ethereum !== 'undefined') {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const contract = new ethers.Contract(contractAddress, ImageStorageABI.abi, provider);
-            try {
-                const hash = await contract.getImageHash();
-                setImageHash(hash);
-            } catch (err) {
-                console.error('Error retrieving hash from blockchain:', err);
-            }
-        }
-    };
-
-    const handleUpload = async () => {
-        const hash = await uploadImageToIPFS();
-        if (hash) {
-            await storeImageHashOnBlockchain(hash);
-        }
-    };
-
-    useEffect(() => {
-        getImageHashFromBlockchain();
-    }, []);
 
     return (
         <div>
-            <h1>Upload and Store Image on Blockchain</h1>
-            <input type="file" onChange={handleFileChange} />
-            <button onClick={handleUpload}>Upload and Store</button>
-            <p>Stored IPFS Hash: {imageHash}</p>
-            {imageHash && <img src={`https://ipfs.infura.io/ipfs/${imageHash}`} alt="Stored" />}
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6 ">
+                        <br></br>
+                        <h1>Mint Nft</h1>
+                        <form onSubmit={uploadToPinata} className="text-center">
+                            <input type="file" onChange={handleFileChange} />
+                            <br></br><br></br>
+                            <button type="submit" className="text-center">Mint</button>
+                        </form>
+
+                        {ipfsHash && (
+                            <div>
+                                <p>Image successfully uploaded!</p>
+                                <p>IPFS Hash: {ipfsHash}</p>
+                                <a
+                                    href={`https://gateway.pinata.cloud/ipfs/${ipfsHash}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    View Image
+                                </a>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="col-md-6 text-center">
+                        <br></br>
+                        <h1>My Nfts</h1>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
     );
-}
+};
 
 export default NftSign;

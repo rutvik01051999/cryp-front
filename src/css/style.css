@@ -18,4 +18,7 @@ a { color: inherit; }
 }
 body{
     font-family: "Audiowide", sans-serif;
-}
+}a:hover {
+    color:red !important; /* Change to your desired color */
+  }
+  
