@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import DataStorage from '../contract/DataStorage.json'; // Adjust path as needed
 
-const CONTRACT_ADDRESS = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'; // Replace with your deployed contract address
+const CONTRACT_ADDRESS = ' 0xFa22043bff1Ca83452024b1f03a75Ab1D4E28A5d'; // Replace with your deployed contract address
 
 function App() {
   const [data, setData] = useState('');
   const [storedData, setStoredData] = useState('');
-  const amount = ethers.utils.parseEther("5")
+  const amount = ethers.utils.parseEther("0.00000000012")
   async function setDataOnBlockchain() {
     if (!data) return;
 
@@ -17,7 +17,7 @@ function App() {
       const contract = new ethers.Contract(CONTRACT_ADDRESS, DataStorage.abi, signer);
 
       try {
-        const nonce = await provider.getTransactionCount('0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199', 'latest'); // Fetch the current nonce
+        const nonce = await provider.getTransactionCount('0xDff8af062dffEEBaEBE88066FF1b1045070372a1', 'latest'); // Fetch the current nonce
 
         console.log(nonce)
 

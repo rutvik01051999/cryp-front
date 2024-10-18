@@ -6,7 +6,7 @@ import Home from './Componenets/Home';
 import About from './Componenets/About';
 import Nft from './Componenets/Nft';
 import NftSign from './Componenets/NftSign';
-import NftSlogan from './Componenets/NftSlogan';
+import Service from './Componenets/Service';
 import '../src/bootstrap/css/bootstrap.min.css';
 import '../src/css/style.css';
 import Popup from './Popup'; // Import the Popup component
@@ -89,6 +89,9 @@ const App = () => {
                 <Link className={`nav-link ${active == 'about' ? 'active' : ''}`} onClick={() => setActive('about')} to="/about">About</Link>
               </li>
               <li className="nav-item">
+                <Link className={`nav-link ${active == 'services' ? 'active' : ''}`} onClick={() => setActive('services')} to="/services">Services</Link>
+              </li>
+              <li className="nav-item">
                 <Link className={`nav-link ${active == 'contact' ? 'active' : ''}`} onClick={() => setActive('contact')} to="/contact">Contact</Link>
               </li>
               <li className="nav-item">
@@ -97,12 +100,9 @@ const App = () => {
               <li className="nav-item">
                 <Link className={`nav-link ${active == 'nft-sign' ? 'active' : ''}`} onClick={() => setActive('nft-sign')} to="/nft-sign">Digital-nft-sign</Link>
               </li>
-              <li className="nav-item">
-                <Link className={`nav-link ${active == 'nft-slogan' ? 'active' : ''}`} onClick={() => setActive('nft-slogan')} to="/nft-slogan">NFT-Sologan</Link>
-              </li>
             </ul>
             <div className="form-inline my-2 my-lg-0">
-              <button onClick={connectWallet} className="btn btn-outline-danger my-2 my-sm-0" type="submit">Login</button>
+              <button onClick={connectWallet} className="btn btn-outline-light my-2 my-sm-0" type="submit">Login</button>
             </div>
           </div>
         </nav>
@@ -114,7 +114,7 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/nft" element={<Nft />} />
             <Route path="/nft-sign" element={<NftSign />} />
-            <Route path="/nft-slogan" element={<NftSlogan />} />
+            <Route path="/services" element={<Service />} />
           </Routes>
         </div>
 

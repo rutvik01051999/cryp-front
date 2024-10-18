@@ -1,9 +1,38 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ethers } from 'ethers';
+import ImageStorage from '../contract/ImageStorage.json'; // Adjust path as needed
+
+const CONTRACT_ADDRESS = '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853'; // Replace with your deployed contract address
+
 
 const NftSign = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [ipfsHash, setIpfsHash] = useState("");
+
+
+    //store hash value in block chian 
+
+
+    async function setDataOnBlockchain(hash) {
+    
+        if (window.ethereum) {
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          const contract = new ethers.Contract(CONTRACT_ADDRESS, ImageStorage.abi, signer);
+    
+          try {
+            const tx = await contract.setString(hash);
+            // const tx = await contract.setData(data,CONTRACT_ADDRESS);
+            await tx.wait();
+            alert('Data stored successfully!');
+          } catch (error) {
+            console.error(error);
+          }
+        } else {
+          alert('Please install MetaMask!');
+        }
+      }
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -45,6 +74,7 @@ const NftSign = () => {
 
             console.log("IPFS Hash: ", res.data.IpfsHash);
             setIpfsHash(res.data.IpfsHash);
+            setDataOnBlockchain(res.data.IpfsHash);
         } catch (error) {
             console.error("Error uploading to Pinata: ", error);
             alert("Error uploading file!");

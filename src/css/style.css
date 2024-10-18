@@ -1,24 +1,40 @@
-.navbar{
+.navbar {
     background-color: black !important;
     color: white;
 }
-footer{
+
+footer {
     background-color: black !important;
     color: white !important;
 }
-a { color: inherit; } 
 
-.active{
-    background-color:aliceblue;
-    border-radius:12px;
+a {
+    color: inherit;
+}
+
+.active {
+    background-color: aliceblue;
+    border-radius: 12px;
     color: black !important;
 }
-.title_des{
+
+.title_des {
     font-family: "Audiowide", sans-serif;
 }
-body{
+
+body {
     font-family: "Audiowide", sans-serif;
-}a:hover {
-    color:red !important; /* Change to your desired color */
-  }
-  
+}
+
+a:hover {
+    color: red !important;
+    /* Change to your desired color */
+}
+.card{
+    padding: 20px !important;
+}
+
+button:hover {
+    color: red !important;
+    /* Change to your desired color */
+}
