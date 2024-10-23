@@ -3,121 +3,71 @@ import axios from "axios";
 import { ethers } from 'ethers';
 import ImageStorage from '../contract/ImageStorage.json'; // Adjust path as needed
 
-const CONTRACT_ADDRESS = '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853'; // Replace with your deployed contract address
+const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // Replace with your deployed contract address
 
 
-const NftSign = () => {
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [ipfsHash, setIpfsHash] = useState("");
+const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'; // Replace with your deployed contract address
+
+function NftSign() {
+    const [tokenURI, setTokenURI] = useState('');
+    const [mintedTokenId, setMintedTokenId] = useState(null);
+    const amount = ethers.utils.parseEther("0.00000000012")
 
 
-    //store hash value in block chian 
+    async function requestAccount() {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+    }
 
 
-    async function setDataOnBlockchain(hash) {
-    
-        if (window.ethereum) {
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
-          const signer = provider.getSigner();
-          const contract = new ethers.Contract(CONTRACT_ADDRESS, ImageStorage.abi, signer);
-    
-          try {
-            const tx = await contract.setString(hash);
-            // const tx = await contract.setData(data,CONTRACT_ADDRESS);
-            await tx.wait();
-            alert('Data stored successfully!');
-          } catch (error) {
-            console.error(error);
-          }
-        } else {
-          alert('Please install MetaMask!');
+
+
+    async function mintNFT() {
+        if (!tokenURI) return;
+        if (typeof window.ethereum !== 'undefined') {
+            await requestAccount();
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            const contract = new ethers.Contract(contractAddress, ImageStorage.abi, signer);
+            try {
+
+                const blockNumber = await provider.getBlockNumber();
+                console.log("Block number: ", blockNumber);
+
+
+                const tokenURI1 = await contract.tokenURI("0");
+                console.log(tokenURI1);
+
+                const jsonObject = {
+                    name: "John Doe",
+                    description: 'jijk',
+                    image: 'https://copper-objective-quail-316.mypinata.cloud/ipfs/QmRjdbAv92381LWSN99VwKAAsVjxjfoEzqrAAvZLMoMyci'
+                  };
+
+
+                const transaction = await contract.mintNFT(signer.getAddress(), jsonObject, { gasLimit: 3000000 });
+                await transaction.wait();
+                console.log('NFT Minted!');
+                setMintedTokenId(transaction.hash); // Optionally display the minted token ID
+                console.log(tokenURI, 'tockenuri')
+            } catch (error) {
+                console.log('Error minting NFT:', error);
+            }
         }
-      }
-
-    const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-    };
-
-    const uploadToPinata = async (e) => {
-        e.preventDefault();
-
-        if (!selectedFile) {
-            alert("Please select a file first!");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("file", selectedFile);
-
-        const metadata = JSON.stringify({
-            name: "MyImage",
-        });
-        formData.append("pinataMetadata", metadata);
-
-        const pinataOptions = JSON.stringify({
-            cidVersion: 0,
-        });
-        formData.append("pinataOptions", pinataOptions);
-
-        try {
-            const res = await axios.post(
-                "https://api.pinata.cloud/pinning/pinFileToIPFS",
-                formData,
-                {
-                    headers: {
-                        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-                        pinata_api_key: "c3b87ecde64af10f6a43",
-                        pinata_secret_api_key: "6c1905aec9afc723a77c97c9a5600ffe4d01e86f4426759287950e9557560e61",
-                    },
-                }
-            );
-
-            console.log("IPFS Hash: ", res.data.IpfsHash);
-            setIpfsHash(res.data.IpfsHash);
-            setDataOnBlockchain(res.data.IpfsHash);
-        } catch (error) {
-            console.error("Error uploading to Pinata: ", error);
-            alert("Error uploading file!");
-        }
-    };
+    }
 
     return (
         <div>
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-6 ">
-                        <br></br>
-                        <h1>Mint Nft</h1>
-                        <form onSubmit={uploadToPinata} className="text-center">
-                            <input type="file" onChange={handleFileChange} />
-                            <br></br><br></br>
-                            <button type="submit" className="text-center">Mint</button>
-                        </form>
-
-                        {ipfsHash && (
-                            <div>
-                                <p>Image successfully uploaded!</p>
-                                <p>IPFS Hash: {ipfsHash}</p>
-                                <a
-                                    href={`https://gateway.pinata.cloud/ipfs/${ipfsHash}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    View Image
-                                </a>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="col-md-6 text-center">
-                        <br></br>
-                        <h1>My Nfts</h1>
-                        
-                    </div>
-                </div>
-            </div>
+            <h1>Mint NFT</h1>
+            <input
+                onChange={(e) => setTokenURI(e.target.value)}
+                placeholder="Enter token URI"
+                value={tokenURI}
+            />
+            <button onClick={mintNFT}>Mint NFT</button>
+            {mintedTokenId && <p>NFT Minted: {mintedTokenId}</p>}
         </div>
     );
-};
+}
+
 
 export default NftSign;
