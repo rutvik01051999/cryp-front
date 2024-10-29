@@ -94,9 +94,9 @@ const App = () => {
               <li className="nav-item">
                 <Link className={`nav-link ${active == 'contact' ? 'active' : ''}`} onClick={() => setActive('contact')} to="/contact">Contact</Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link className={`nav-link ${active == 'nft' ? 'active' : ''}`} onClick={() => setActive('nft')} to="/nft">NFT-Number</Link>
-              </li>
+              </li> */}
               <li className="nav-item">
                 <Link className={`nav-link ${active == 'nft-sign' ? 'active' : ''}`} onClick={() => setActive('nft-sign')} to="/nft-sign">Digital-nft-sign</Link>
               </li>
