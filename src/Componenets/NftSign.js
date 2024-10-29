@@ -151,12 +151,12 @@ function NftSign() {
                     <div className="col-md-6">
                         <h1>My Nft</h1>
 
-                        <div class="card-group">
+                        <div className="card-group">
                         {nfts.map((nft, index) => (
-                            <div  key={index} class="card">
+                            <div  key={index} className="card">
                               {nft.tokenUri['raw'] ?
                                         <img src={nft.tokenUri['raw']} alt="IPFS Image" style={{ maxWidth: '100%', height: 'auto' }} /> : ''}
-                                    <div class="card-body">
+                                    <div className="card-body">
                                        
                                     </div>
                             </div>
