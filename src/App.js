@@ -7,6 +7,8 @@ import About from './Componenets/About';
 import Nft from './Componenets/Nft';
 import NftSign from './Componenets/NftSign';
 import Service from './Componenets/Service';
+import Loader from './Componenets/Loader';
+
 import '../src/bootstrap/css/bootstrap.min.css';
 import '../src/css/style.css';
 import Popup from './Popup'; // Import the Popup component
@@ -19,7 +21,20 @@ const App = () => {
     signer: null,
     contract: null
   })
+
+
+
   const [active, setActive] = useState('home');
+  const [loading, setLoading] = useState(false);
+  
+  const handleLoadComponent = () => {
+    setLoading(true);
+    // Simulate loading delay
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000); // Adjust the delay as needed
+  };
+
 
   const [account, setAccount] = useState("");
   const connectWallet = async () => {
@@ -94,9 +109,7 @@ const App = () => {
               <li className="nav-item">
                 <Link className={`nav-link ${active == 'contact' ? 'active' : ''}`} onClick={() => setActive('contact')} to="/contact">Contact</Link>
               </li>
-              {/* <li className="nav-item">
-                <Link className={`nav-link ${active == 'nft' ? 'active' : ''}`} onClick={() => setActive('nft')} to="/nft">NFT-Number</Link>
-              </li> */}
+             
               <li className="nav-item">
                 <Link className={`nav-link ${active == 'nft-sign' ? 'active' : ''}`} onClick={() => setActive('nft-sign')} to="/nft-sign">Digital-nft-sign</Link>
               </li>
@@ -107,8 +120,13 @@ const App = () => {
           </div>
         </nav>
 
+
+        {loading && <Loader />}
+
+
         {/* Main content */}
         <div className="content">
+
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
