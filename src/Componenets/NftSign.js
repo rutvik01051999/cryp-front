@@ -49,7 +49,7 @@ function NftSign() {
                 uploadedBy: "ReactApp",
             },
         });
-        formData.append("pinataMetadata", metadata);
+        formData.append("pinataMetadata", metadata); 
 
         const options = JSON.stringify({
             cidVersion: 1,
@@ -61,8 +61,8 @@ function NftSign() {
                 maxBodyLength: "Infinity", // Important for large files
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    pinata_api_key: "<YOUR_PINATA_API_KEY>",
-                    pinata_secret_api_key: "<YOUR_PINATA_SECRET_API_KEY>",
+                    pinata_api_key: "c3b87ecde64af10f6a43",
+                    pinata_secret_api_key: "6c1905aec9afc723a77c97c9a5600ffe4d01e86f4426759287950e9557560e61",
                 },
             });
 

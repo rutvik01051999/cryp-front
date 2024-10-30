@@ -7,8 +7,8 @@ import About from './Componenets/About';
 import Nft from './Componenets/Nft';
 import NftSign from './Componenets/NftSign';
 import Service from './Componenets/Service';
+import Contact from './Componenets/Contact';
 import Loader from './Componenets/Loader';
-
 import '../src/bootstrap/css/bootstrap.min.css';
 import '../src/css/style.css';
 import Popup from './Popup'; // Import the Popup component
@@ -22,10 +22,13 @@ const App = () => {
     contract: null
   })
 
-
-
   const [active, setActive] = useState('home');
   const [loading, setLoading] = useState(false);
+
+  const setNavbar = (value) => {
+    setActive(value);
+    handleLoadComponent();
+  }
   
   const handleLoadComponent = () => {
     setLoading(true);
@@ -98,20 +101,20 @@ const App = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link className={`nav-link ${active == 'home' ? 'active' : ''}`} onClick={() => setActive('home')} to="/">Home</Link>
+                <Link className={`nav-link ${active == 'home' ? 'active' : ''}`} onClick={() => setNavbar('home')} to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link ${active == 'about' ? 'active' : ''}`} onClick={() => setActive('about')} to="/about">About</Link>
+                <Link className={`nav-link ${active == 'about' ? 'active' : ''}`} onClick={() => setNavbar('about')} to="/about">About</Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link ${active == 'services' ? 'active' : ''}`} onClick={() => setActive('services')} to="/services">Services</Link>
+                <Link className={`nav-link ${active == 'services' ? 'active' : ''}`} onClick={() => setNavbar('services')} to="/services">Services</Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link ${active == 'contact' ? 'active' : ''}`} onClick={() => setActive('contact')} to="/contact">Contact</Link>
+                <Link className={`nav-link ${active == 'contact' ? 'active' : ''}`} onClick={() => setNavbar('contact')} to="/contact">Contact</Link>
               </li>
              
               <li className="nav-item">
-                <Link className={`nav-link ${active == 'nft-sign' ? 'active' : ''}`} onClick={() => setActive('nft-sign')} to="/nft-sign">Digital-nft-sign</Link>
+                <Link className={`nav-link ${active == 'nft-sign' ? 'active' : ''}`} onClick={() => setNavbar('nft-sign')} to="/nft-sign">Digital-nft-sign</Link>
               </li>
             </ul>
             <div className="form-inline my-2 my-lg-0">
@@ -133,6 +136,7 @@ const App = () => {
             <Route path="/nft" element={<Nft />} />
             <Route path="/nft-sign" element={<NftSign />} />
             <Route path="/services" element={<Service />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </div>
 
