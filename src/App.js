@@ -24,6 +24,9 @@ const App = () => {
 
   const [active, setActive] = useState('home');
   const [loading, setLoading] = useState(false);
+  const [walletAddress, setwalletAddress] = useState('Login');
+  const walletAddressDetail = localStorage.getItem('walletAddress');
+
 
   const setNavbar = (value) => {
     setActive(value);
@@ -63,6 +66,10 @@ const App = () => {
 
       // Get the connected wallet address
       const walletAddress = await signer.getAddress();
+
+
+      setwalletAddress(walletAddress)
+      localStorage.setItem('walletAddress', walletAddress); // Store name in Local Storage
 
       console.log("Connected Wallet Address:", walletAddress);
 
@@ -114,11 +121,11 @@ const App = () => {
               </li>
              
               <li className="nav-item">
-                <Link className={`nav-link ${active == 'nft-sign' ? 'active' : ''}`} onClick={() => setNavbar('nft-sign')} to="/nft-sign">Digital-nft-sign</Link>
+                <Link className={`nav-link ${active == 'nft-sign' ? 'active' : ''}`} onClick={() => setNavbar('nft-sign')} to="/nft-sign">NFTs</Link>
               </li>
             </ul>
             <div className="form-inline my-2 my-lg-0">
-              <button onClick={connectWallet} className="btn btn-outline-light my-2 my-sm-0" type="submit">Login</button>
+              <button onClick={connectWallet} className="btn btn-outline-light my-2 my-sm-0" type="submit">{walletAddressDetail}</button>
             </div>
           </div>
         </nav>
