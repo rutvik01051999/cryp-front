@@ -10,6 +10,7 @@ import Service from './Componenets/Service';
 import Contact from './Componenets/Contact';
 import Loader from './Componenets/Loader';
 import '../src/bootstrap/css/bootstrap.min.css';
+import '../src/bootstrap/js/bootstrap.bundle.min.js';
 import '../src/css/style.css';
 import Popup from './Popup'; // Import the Popup component
 import { ethers } from "ethers"
@@ -32,9 +33,24 @@ const App = () => {
   const isActive = (path) => location.pathname === path;
 
 
+  // State to manage the navbar collapse
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Toggle the navbar open/close state
+  const toggleNavbar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  // Close the navbar when a link is clicked
+  const closeNavbar = () => {
+    setIsOpen(false);
+  };
+
+
   const setNavbar = (value) => {
     setActive(value);
     handleLoadComponent();
+    setIsOpen(false);
   }
   
   const handleLoadComponent = () => {
@@ -100,14 +116,21 @@ const App = () => {
 
         <nav className="navbar navbar-expand-lg">
           <a className="navbar-brand" href="#">EthNfts</a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
+          <button 
+          className="navbar-toggler" 
+          type="button" 
+          onClick={toggleNavbar} 
+          aria-controls="navbarNav" 
+          aria-expanded={isOpen ? "true" : "false"} 
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link className={`nav-link ${isActive('/home') ? 'active' : ''}`} onClick={() => setNavbar('home')} to="/">Home</Link>
+                <Link className={`nav-link ${isActive('/') ? 'active' : ''}`} onClick={() => setNavbar('home')} to="/">Home</Link>
               </li>
               <li className="nav-item">
                 <Link className={`nav-link ${isActive('/about') ? 'active' : ''}`} onClick={() => setNavbar('about')} to="/about">About</Link>
