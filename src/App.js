@@ -124,7 +124,12 @@ const App = () => {
           aria-expanded={isOpen ? "true" : "false"} 
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+           <img 
+            src="path_to_your_image.png" 
+            alt="Menu" 
+            width="30" 
+            height="30"
+          />
         </button>
 
           <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarSupportedContent">
