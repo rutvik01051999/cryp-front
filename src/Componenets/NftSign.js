@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import ImageStorage from '../contract/ImageStorage.json'; // Adjust path as needed
 import axios from 'axios';
 
+
 const contractAddress = '0x13D5D22bbF6356BA8efCd7CC4F543aa4aa13E88E'; // Replace with your deployed contract address
 
 const ALCHEMY_API_KEY = 'IL8NMntyVlpwro5pi0J1gm1ORMNmQYMi';
@@ -13,6 +14,7 @@ function NftSign() {
     const [tokenURI, setTokenURI] = useState('');
     const [mintedTokenId, setMintedTokenId] = useState(null);
     const amount = ethers.utils.parseEther("0.00000000000000012")
+    
 
     const [file, setFile] = useState(null);
     const [ipfsHash, setIpfsHash] = useState("");

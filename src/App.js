@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import { ethers } from "ethers";
 import CryptoTransfer from "./CryptoTransfer.json"; // Import ABI
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link,useLocation } from 'react-router-dom';
 import Home from './Componenets/Home';
 import About from './Componenets/About';
 import Nft from './Componenets/Nft';
@@ -15,6 +15,7 @@ import Popup from './Popup'; // Import the Popup component
 import { ethers } from "ethers"
 
 
+
 const App = () => {
   const [state, setState] = useState({
     provider: null,
@@ -26,6 +27,9 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [walletAddress, setwalletAddress] = useState('Login');
   const walletAddressDetail = localStorage.getItem('walletAddress');
+
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
 
 
   const setNavbar = (value) => {
@@ -89,12 +93,7 @@ const App = () => {
   };
 
   return (
-    <Router>
-      {/* <Popup isOpen={isOpen} onClose={togglePopup}>
-                <h2>This is a Popup</h2>
-                <p>You can put any content here.</p>
-            </Popup> */}
-      {/* <button onClick={togglePopup}>Open Popup</button> */}
+    
 
       <div className="app-container">
         {/* Fixed Navbar */}
@@ -108,20 +107,20 @@ const App = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link className={`nav-link ${active == 'home' ? 'active' : ''}`} onClick={() => setNavbar('home')} to="/">Home</Link>
+                <Link className={`nav-link ${isActive('/home') ? 'active' : ''}`} onClick={() => setNavbar('home')} to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link ${active == 'about' ? 'active' : ''}`} onClick={() => setNavbar('about')} to="/about">About</Link>
+                <Link className={`nav-link ${isActive('/about') ? 'active' : ''}`} onClick={() => setNavbar('about')} to="/about">About</Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link ${active == 'services' ? 'active' : ''}`} onClick={() => setNavbar('services')} to="/services">Services</Link>
+                <Link className={`nav-link ${isActive('/services') ? 'active' : ''}`} onClick={() => setNavbar('services')} to="/services">Services</Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link ${active == 'contact' ? 'active' : ''}`} onClick={() => setNavbar('contact')} to="/contact">Contact</Link>
+                <Link className={`nav-link ${isActive('/contact') ? 'active' : ''}`} onClick={() => setNavbar('contact')} to="/contact">Contact</Link>
               </li>
              
               <li className="nav-item">
-                <Link className={`nav-link ${active == 'nft-sign' ? 'active' : ''}`} onClick={() => setNavbar('nft-sign')} to="/nft-sign">NFTs</Link>
+                <Link className={`nav-link ${isActive('/nft-sign') ? 'active' : ''}`} onClick={() => setNavbar('nft-sign')} to="/nft-sign">NFTs</Link>
               </li>
             </ul>
             <div className="form-inline my-2 my-lg-0">
@@ -245,7 +244,7 @@ const App = () => {
           </div>
         </footer>
       </div>
-    </Router>
+   
   );
 };
 
