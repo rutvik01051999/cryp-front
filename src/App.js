@@ -12,7 +12,6 @@ import Loader from './Componenets/Loader';
 import '../src/bootstrap/css/bootstrap.min.css';
 import '../src/bootstrap/js/bootstrap.bundle.min.js';
 import '../src/css/style.css';
-import Popup from './Popup'; // Import the Popup component
 import { ethers } from "ethers"
 
 
@@ -148,7 +147,7 @@ const App = () => {
               </li>
              
               <li className="nav-item">
-                <Link className={`nav-link ${isActive('/nft-sign') ? 'active' : ''}`} onClick={() => setNavbar('nft-sign')} to="/nft-sign">NFTs</Link>
+                <Link className={`nav-link ${isActive('/nft-sign') ? 'active' : ''}`} onClick={() => setNavbar('nft-sign')} to="/nft-sign">Image</Link>
               </li>
             </ul>
             <div className="form-inline my-2 my-lg-0">
